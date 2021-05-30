@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Taxes\Calculator;
+use Cocur\Slugify\Slugify;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,8 +29,10 @@ class HelloController
     /**
      * @Route("/hello/{prenom}", name="hello", methods={"GET", "POST"})
      */
-    public function hello(Request $request, $prenom = "World", LoggerInterface $logger, Calculator $calculator)
+    public function hello(Request $request, $prenom = "World", LoggerInterface $logger, Calculator $calculator, Slugify $slugify)
     {
+        // $slugify = new Slugify();
+        dump($slugify->slugify("Hello World"));
         // $request = Request::createFromGlobals();
 
         // $age = $request->attributes->get('age');
@@ -43,7 +46,7 @@ class HelloController
         $tva = $calculator->calcul(100);
 
         dump($tva);
-        
+
         return new Response("Hello $prenom  !");
 
         // dd("Vous avez $age ans");
