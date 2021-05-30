@@ -41,7 +41,9 @@ class HelloController
         $logger->info("Mon message de log !!!");
 
         $tva = $calculator->calcul(100);
+
         dump($tva);
+        
         return new Response("Hello $prenom  !");
 
         // dd("Vous avez $age ans");
