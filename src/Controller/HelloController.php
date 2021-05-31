@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Taxes\Calculator;
+use App\Taxes\Detector;
 use Cocur\Slugify\Slugify;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 class HelloController
 {
@@ -29,8 +31,11 @@ class HelloController
     /**
      * @Route("/hello/{prenom}", name="hello", methods={"GET", "POST"})
      */
-    public function hello(Request $request, $prenom = "World", LoggerInterface $logger, Calculator $calculator, Slugify $slugify)
+    public function hello(Request $request, $prenom = "World", LoggerInterface $logger, Calculator $calculator, Slugify $slugify, Environment $twig, Detector $detector)
     {
+
+        dump($detector->detect(101));
+        dump($detector->detect(10));
         // $slugify = new Slugify();
         dump($slugify->slugify("Hello World"));
         // $request = Request::createFromGlobals();
