@@ -27,7 +27,7 @@ class AppFixtures extends Fixture
             $product = new Product();
             $product->setName($faker->productName())
                     ->setPrice($faker->price(4000, 20000))
-                    ->setSlug($this->slugger->slug($product->getName()));
+                    ->setSlug(strtolower($this->slugger->slug($product->getName())));
 
             $manager->persist($product);
         }
