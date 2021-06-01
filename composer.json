@@ -8,8 +8,11 @@
         "cocur/slugify": "^4.0",
         "composer/package-versions-deprecated": "1.11.99.2",
         "doctrine/doctrine-bundle": "^2.3",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
+        "liorchamla/faker-prices": "^2.0",
+        "mbezhanov/faker-provider-collection": "^2.0",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/console": "5.1.*",
         "symfony/dotenv": "5.1.*",
@@ -68,5 +71,8 @@
             "allow-contrib": false,
             "require": "5.1.*"
         }
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.14"
     }
 }
