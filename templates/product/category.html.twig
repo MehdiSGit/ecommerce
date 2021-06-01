@@ -7,7 +7,7 @@
 {% block body %}
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">
-			<a href="#">Accueil</a>
+			<a href="{{ path('homepage')}}">Accueil</a>
 		</li>
 		<li class="breadcrumb-item active">{{ category.name }}</li>
 	</ol>
@@ -24,7 +24,7 @@
 							{{ p.category.name }}
 						</span>
 						<p class="card-text">{{ p.shortDescription}}</p>
-						<a href="#" class="btn btn-primary btn-sm">Détail produit</a>
+						<a href="{{ path('product_show', { 'category_slug': p.category.slug, 'slug': p.slug}) }}" class="btn btn-primary btn-sm">Détail produit</a>
 						<a href="#" class="btn btn-success btn-sm">Ajouter</a>
 					</div>
 				</div>
