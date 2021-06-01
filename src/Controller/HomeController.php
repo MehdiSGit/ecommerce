@@ -13,13 +13,13 @@ class HomeController extends AbstractController {
      */
     public function homepage(EntityManagerInterface $em) {
 
-        $productRepository = $em->getRepository(Product::class);
-        $product = $productRepository->find(3);
+        // $productRepository = $em->getRepository(Product::class);
+        // $product = $productRepository->find(3);
 
-        $product->setPrice(2500);
-        $em->flush($product);
+        // $product->setPrice(2500);
+        // $em->flush($product);
 
-        dd($product);
+        // dd($product);
 
 
         return $this->render('home.html.twig', []);
