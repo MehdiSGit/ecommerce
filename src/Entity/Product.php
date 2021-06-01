@@ -37,10 +37,15 @@ class Product
      */
     private $category;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $mainPicture;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $shortDescription;
 
     public function getName(): ?string
     {
@@ -89,4 +94,29 @@ class Product
 
         return $this;
     }
+
+    public function getMainPicture(): ?string
+    {
+        return $this->mainPicture;
+    }
+
+    public function setMainPicture(string $mainPicture): self
+    {
+        $this->mainPicture = $mainPicture;
+
+        return $this;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->shortDescription;
+    }
+
+    public function setShortDescription(string $shortDescription): self
+    {
+        $this->shortDescription = $shortDescription;
+
+        return $this;
+    }
+
 }
