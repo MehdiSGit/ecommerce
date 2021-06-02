@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class ProductType extends AbstractType
 {
@@ -42,6 +44,41 @@ class ProductType extends AbstractType
                         return strtoupper($category->getName());
                     }
                 ]);
+
+                $builder->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event){
+                    $product = $event->getData();
+                    if($product->getPrice() !== null)
+                    {
+                    $product->setPrice($product->getPrice() * 100);
+                    }
+                });
+                
+                $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) 
+                {
+                    $form = $event->getForm();
+
+                    /** @var Product */
+                    $product = $event->getData();
+                    
+                    if($product->getPrice() !== null)
+                    {
+                    $product->setPrice($product->getPrice() / 100);
+                    }
+
+                    // dd($product);
+
+                    // if($product->getId() === null) {
+                    //     // $form->add('category', EntityType::class, [
+                    //     //     'label' => 'Catégorie',
+                    //     //     'placeholder' => '--Choisir une catégorie',
+                    //     //     'class' => Category::class,
+                    //     //     'choice_label' => function(Category $category) {
+                    //     //         return strtoupper($category->getName());
+                    //     //     }
+                    //     // ]);
+                    // }
+
+                });    
     }
 
     public function configureOptions(OptionsResolver $resolver)
