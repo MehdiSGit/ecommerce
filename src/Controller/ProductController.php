@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -55,30 +57,29 @@ class ProductController extends AbstractController
     /**
      * @Route("/admin/product/create", name="product_create")
      */
-    public function create(FormFactoryInterface $factory) 
+    public function create(FormFactoryInterface $factory, CategoryRepository $categoryRepository) 
     {   
         $builder = $factory->createBuilder();
 
         $builder->add('name',TextType::class, [
             'label' => 'Nom du produit',
-            'attr' => ['class' => 'form-control', 'placeholder' => 'Tapez le nom du produit']
+            'attr' => ['placeholder' => 'Tapez le nom du produit']
         ])
                 ->add('shortDescription', TextareaType::class, [
                     'label' => 'Description courte',
-                    'attr' => ['class' => 'form-control', 'placeholder' => 'Tapez une description']
+                    'attr' => ['placeholder' => 'Tapez une description']
                 ])
                 ->add('price', MoneyType::class, [
-                    'label' => 'Prix du produit en ',
-                    'attr' => ['class' => 'form-control', 'placeholder' => 'Tapez le prix du produit']
+                    'label' => 'Prix du produit',
+                    'attr' => ['placeholder' => 'Tapez le prix du produit']
                 ])
-                ->add('category', ChoiceType::class, [
+                ->add('category', EntityType::class, [
                     'label' => 'Catégorie',
-                    'attr' => ['class' => 'form-control'],
                     'placeholder' => '--Choisir une catégorie',
-                    'choices' => [
-                        'Catégorie 1' => 1,
-                        'Catégorie 2' => 2
-                    ]
+                    'class' => Category::class,
+                    'choice_label' => function(Category $category) {
+                        return strtoupper($category->getName());
+                    }
                 ]);
         
         $form = $builder->getForm();
