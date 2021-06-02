@@ -3,19 +3,24 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Product;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ProductController extends AbstractController
 {
@@ -57,9 +62,11 @@ class ProductController extends AbstractController
     /**
      * @Route("/admin/product/create", name="product_create")
      */
-    public function create(FormFactoryInterface $factory, CategoryRepository $categoryRepository) 
+    public function create(FormFactoryInterface $factory, CategoryRepository $categoryRepository, Request $request, SluggerInterface $slugger) 
     {   
-        $builder = $factory->createBuilder();
+        $builder = $factory->createBuilder(FormType::class, null, [
+            'data_class' => Product::class
+        ]);
 
         $builder->add('name',TextType::class, [
             'label' => 'Nom du produit',
@@ -73,6 +80,10 @@ class ProductController extends AbstractController
                     'label' => 'Prix du produit',
                     'attr' => ['placeholder' => 'Tapez le prix du produit']
                 ])
+                ->add('mainPicture', UrlType::class, [
+                    'label' => 'Image du produit',
+                    'attr' => ['placeholder' => 'Tapez une URL d\'image']
+                ])
                 ->add('category', EntityType::class, [
                     'label' => 'Catégorie',
                     'placeholder' => '--Choisir une catégorie',
@@ -83,6 +94,19 @@ class ProductController extends AbstractController
                 ]);
         
         $form = $builder->getForm();
+        $form->handleRequest($request);
+        $data = $form->getData();
+        if($form->isSubmitted())
+        {
+            $product = $form->getData();
+            $product->setSlug(strtolower($slugger->slug($product->getName())));
+
+            // $product = new Product;
+            // $product->setName($data['name'])
+            //     ->setShortDescription($data['shortDescription'])
+            //     ->setPrice($data['price'])
+            //     ->setCategory($data['category']);
+        }
 
         $formView = $form->createView();
 
