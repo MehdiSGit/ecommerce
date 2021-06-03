@@ -17,6 +17,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProductController extends AbstractController
 {
@@ -58,8 +59,19 @@ class ProductController extends AbstractController
     /**
      * @Route("/admin/product/{id}/edit", name="product_edit")
      */
-    public function edit($id, ProductRepository $productRepository, Request $request, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator) 
+    public function edit($id, ProductRepository $productRepository, Request $request, EntityManagerInterface $em, ValidatorInterface $validator) 
     {
+        $product = new Product;
+        $product->setName("Salut à tous")
+                ->setPrice(2000);
+        $resultat = $validator->validate($product);
+
+        if($resultat->count() > 0) {
+            dd("Il y a des erreurs", $resultat);
+        }
+        dd("Tout va bien");
+        
+
         $product = $productRepository->find($id);
 
         $form = $this->createForm(ProductType::class, $product);
