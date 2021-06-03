@@ -24,7 +24,8 @@ class ProductType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom du produit',
-                'attr' => ['placeholder' => 'Tapez le nom du produit']
+                'attr' => ['placeholder' => 'Tapez le nom du produit'],
+                'required' => false
             ])
             ->add('shortDescription', TextareaType::class, [
                 'label' => 'Description courte',
@@ -32,7 +33,8 @@ class ProductType extends AbstractType
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Prix du produit',
-                'attr' => ['placeholder' => 'Tapez le prix du produit']
+                'attr' => ['placeholder' => 'Tapez le prix du produit'],
+                'divisor' => 100
             ])
             ->add('mainPicture', UrlType::class, [
                 'label' => 'Image du produit',
@@ -47,7 +49,7 @@ class ProductType extends AbstractType
                 }
             ]);
 
-        $builder->get('price')->addModelTransformer(new CentimesTransformer);
+        // $builder->get('price')->addModelTransformer(new CentimesTransformer);
 
         // $builder->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event){
         //     $product = $event->getData();
