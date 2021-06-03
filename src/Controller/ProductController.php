@@ -66,16 +66,11 @@ class ProductController extends AbstractController
         // $form->setData($product);
 
         $form->handleRequest($request);
-        if($form->isSubmitted())
+        if($form->isSubmitted() && $form->isValid())
         {
+            dd($form->getData());
             $em->flush();
 
-            // $url = $urlGenerator->generate('product_show', [
-            //     'category_slug' => $product->getCategory()->getSlug(),
-            //     'slug' => $product->getSlug()
-            // ]);
-            // $response = new RedirectResponse($url);
-            // return $response;
             return $this->redirectToRoute('product_show', [
                     'category_slug' => $product->getCategory()->getSlug(),
                     'slug' => $product->getSlug()
@@ -104,7 +99,7 @@ class ProductController extends AbstractController
         
         if($form->isSubmitted())
         {
-            $product->setSlug(strtolower($slugger->slug($product->getName())));
+            // $product->setSlug(strtolower($slugger->slug($product->getName())));
 
             $em->persist($product);
             $em->flush();

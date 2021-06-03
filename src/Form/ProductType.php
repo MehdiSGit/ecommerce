@@ -9,13 +9,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ProductType extends AbstractType
 {
@@ -25,7 +23,8 @@ class ProductType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nom du produit',
                 'attr' => ['placeholder' => 'Tapez le nom du produit'],
-                'required' => false
+                'required' => false,
+                'constraints' => new NotBlank(['message' => "Validation du formulaire : le nom du produit ne peut pas être vide"])
             ])
             ->add('shortDescription', TextareaType::class, [
                 'label' => 'Description courte',
@@ -34,7 +33,8 @@ class ProductType extends AbstractType
             ->add('price', MoneyType::class, [
                 'label' => 'Prix du produit',
                 'attr' => ['placeholder' => 'Tapez le prix du produit'],
-                'divisor' => 100
+                'divisor' => 100,
+                'constraints' => new NotBlank(['message' => "Validation du formulaire : le prix du produit ne peut pas être vide"])
             ])
             ->add('mainPicture', UrlType::class, [
                 'label' => 'Image du produit',
