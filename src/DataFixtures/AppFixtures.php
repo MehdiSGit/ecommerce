@@ -23,7 +23,6 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        
         $faker = Factory::create('fr_FR');
         $faker->addProvider(new \Liior\Faker\Prices($faker));
         $faker->addProvider(new \Bezhanov\Faker\Provider\Commerce($faker));
@@ -51,10 +50,10 @@ class AppFixtures extends Fixture
                 ->setPassword($hash);
 
             $manager->persist($user);
-                
         }
 
-        for($c = 0; $c < 3; $c++) {
+        for($c = 0; $c < 3; $c++) 
+        {
             $category = new Category();
             $category->setName($faker->department())
                     ->setSlug(strtolower($this->slugger->slug($category->getName())));
