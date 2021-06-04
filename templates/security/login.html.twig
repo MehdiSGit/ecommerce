@@ -4,4 +4,12 @@
 
 {% block body %}
     <h1>Connexion</h1>
+
+    {{ form_start(formView) }}
+
+    {{ form_widget(formView) }}
+
+        <button type="submit" class="btn btn-success">Connexion</button>
+        
+    {{ form_end(formView) }}
 {% endblock %}
