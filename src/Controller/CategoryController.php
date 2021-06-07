@@ -8,7 +8,10 @@ use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CategoryController extends AbstractController
@@ -55,8 +58,14 @@ class CategoryController extends AbstractController
     /**
      * @Route("admin/category/{id}/edit", name="category_edit")
      */
-    public function edit($id, CategoryRepository $categoryRepository, Request $request, EntityManagerInterface $em)
-    {   $category = $categoryRepository->find($id);
+    public function edit($id, CategoryRepository $categoryRepository, Request $request, EntityManagerInterface $em, Security $security)
+    {   
+
+        $category = $categoryRepository->find($id);
+
+        if(!$category){
+            throw new NotFoundHttpException("Cette catégorie n'existe pas");
+        }
 
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
