@@ -9,9 +9,9 @@
 	<h1>Nos produits phares</h1>
 
 	<div class="row">
-		{% for p in products %}
+		{% for product in products %}
 			<div class="col">
-				{% include "product/_product_card.html.twig" %}
+				{% include "product/_product_card.html.twig" with {'p': product} %}
 			</div>
 		{% endfor %}
 	</div>
