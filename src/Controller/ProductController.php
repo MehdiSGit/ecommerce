@@ -28,7 +28,7 @@ class ProductController extends AbstractController
             'slug' => $slug
         ]);
             if (!$category) {
-                throw new NotFoundHttpException("La catégorie n'existe pas");
+                throw new NotFoundHttpException("La catégorie demandée n'existe pas");
             }
         
         return $this->render('product/category.html.twig', [
