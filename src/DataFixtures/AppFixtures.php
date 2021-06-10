@@ -102,10 +102,10 @@ class AppFixtures extends Fixture
                             ->setProductName($product->getName())
                             ->setProductPrice($product->getPrice())
                             ->setTotal(
-                                $purchaseItem->getProductPrice() * $purchaseItem->getQuantity()
-                            )
+                                ($purchaseItem->getProductPrice() * $purchaseItem->getQuantity()
+                            ))
                             ->setPurchase($purchase);
-                            
+
                 $manager->persist($purchaseItem);
             }
 
