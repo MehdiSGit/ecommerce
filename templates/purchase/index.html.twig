@@ -25,8 +25,8 @@
                     <td>{{ p.purchasedAt | date('d/m/y H:i') }}</td>
                     <td>
                         <ul>
-                            {% for product in p.products %}
-                                <li>{{ product.name }} ({{ product.price / 100 }} €)</li>
+                            {% for item in p.purchaseItems %}
+                                <li>{{ item.quantity }}x {{ item.productName }} ({{ item.total / 100 }} €)</li>
                             {% endfor %}
                         </ul>
                     </td>
