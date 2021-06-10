@@ -64,15 +64,13 @@ class PurchaseConfirmationController extends AbstractController
 
         //6. Nous allons la lier avec l'utilisateur actuellement connecté (Security)
         $purchase->setUser($user)
-                ->setPurchasedAt(new DateTime());
+                ->setPurchasedAt(new DateTime())
+                ->setTotal($this->cartService->getTotal());
 
         $this->em->persist($purchase);
 
 
         // 7. Nous allons la lier avec les produits qui sont dans le panier (CartService)
-        $total = 0;
-
-
 
         foreach($this->cartService->getDetailedCartItems() as $cartItem)
         {
@@ -84,15 +82,13 @@ class PurchaseConfirmationController extends AbstractController
                         ->setTotal($cartItem->getTotal())
                         ->setProductPrice($cartItem->product->getPrice());
 
-            $total += $cartItem->getTotal();
-
             $this->em->persist($purchaseItem);
         }
 
-        $purchase->setTotal($total);
-
         // 8. Nous allons enregistrer la commande (EntityManagerInterface)
         $this->em->flush();
+
+        $this->cartService->empty();
 
         $this->addFlash('success', "La commande a bien été enregistrée");
         return $this->redirectToRoute('purchase_index');
