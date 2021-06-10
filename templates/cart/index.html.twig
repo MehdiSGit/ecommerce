@@ -57,7 +57,7 @@
 		</table>
 		<hr>
 		<h2>Confirmez votre commande en remplissant ce formulaire</h2>
-		{{ form_start(confirmationForm) }}
+		{{ form_start(confirmationForm, {'action': path('purchase_confirm')}) }}
 
 		{{ form_widget(confirmationForm) }}
 
