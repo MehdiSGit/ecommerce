@@ -24,15 +24,15 @@ class PurchasePaymentSuccessController extends AbstractController
         // 1. Je récupère la commande
         $purchase = $purchaseRepository->find($id);
 
-        if(
-            !$purchase || 
-            ($purchase->getUser() !== $this->getUser()) || 
+        if (
+            !$purchase ||
+            ($purchase->getUser() !== $this->getUser()) ||
             ($purchase && $purchase->getStatus() === Purchase::STATUS_PAID)
-        ){
+        ) {
             return $this->addFlash('warning', "La commande n'existe pas");
             return $this->redirectToRoute("purchase_index");
         }
-        
+
         // 2. Je l'a fait passer au status de PAYEE (PAID)
         $purchase->setStatus(Purchase::STATUS_PAID);
         $em->flush();
