@@ -2,12 +2,24 @@
 
 namespace App\Doctrine\Listener;
 
-use Doctrine\Persistence\Event\LifecycleEventArgs;
+use App\Entity\Product;
+use Doctrine\ORM\Event\LifecycleEventArgs as EventLifecycleEventArgs;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ProductSlugListener 
-{
-    public function pretPresist(LifecycleEventArgs $event)
+{      
+    protected $slugger;     
+
+    public function __construct(SluggerInterface $slugger)
     {
-        dd("Ca marche");
+        $this->slugger = $slugger;
+    }
+
+    public function prePersist(Product $entity, EventLifecycleEventArgs $event)
+    {   
+        if(empty($entity->getSlug()))
+        {
+            $entity->setSlug(strtolower($this->slugger->slug($entity->getName())));
+        }
     }
 }
