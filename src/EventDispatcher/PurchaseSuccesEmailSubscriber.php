@@ -49,7 +49,7 @@ class PurchaseSuccesEmailSubscriber implements EventSubscriberInterface
                     'user' => $currentUser
                 ]);
 
-        // $this->mailer->send($email);
+        $this->mailer->send($email);
 
 
         $this->logger->info("Email envoyé pour la commande n° " . 
