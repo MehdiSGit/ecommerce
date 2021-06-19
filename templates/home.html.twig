@@ -38,5 +38,22 @@
             'text': 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae sunt ad, suscipit dignissimos autem ab?'
         } %}
 	</div>
+	
+	<div id="contactForm" class="mt-4">
+		{{ form_start(form) }}
+		<div class="row">
+			<div class="col">{{ form_row(form.firstname, {'label': 'Prénom'}) }}</div>
+			<div class="col">{{ form_row(form.lastname, {'label': 'Nom'} )}}</div>
+		</div>
+		<div class="row">
+			<div class="col">{{ form_row(form.phone, {'label': 'Numéro de téléphone'}) }}</div>
+			<div class="col">{{ form_row(form.email, {'label': 'Adresse email'}) }}</div>
+		</div>
+		{{ form_rest(form) }}
+		<div class="form-group">
+			<button type="submit" class="btn btn-success">Contactez moi </button>
+		</div>
+		{{ form_end(form) }}
+	</div>
 {% endblock %}
 
